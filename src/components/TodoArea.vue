@@ -74,19 +74,18 @@ export default defineComponent({
   },
   data() {
     return {
-      results: [] as Todo[], // Typing for array of todos
+      results: [] as Todo[], 
       newTodo: {
         id: -1,
         todo: "",
         desc: "",
-      } as Todo, // Typing for a single todo
+      } as Todo, 
     };
   },
   mounted() {
     this.fetchTodos();
   },
   methods: {
-    // Fetch all todos
     async fetchTodos() {
       try {
         const response = await axios.get<{ result: Todo[] }>("/api/get-todo");
@@ -96,7 +95,6 @@ export default defineComponent({
       }
     },
 
-    // Add or update a todo
     async submitForm() {
       if (this.newTodo.todo.trim() && this.newTodo.desc.trim()) {
         if (this.newTodo.id !== -1) {
@@ -110,7 +108,6 @@ export default defineComponent({
       }
     },
 
-    // Add a new todo
     async addTodo() {
       try {
         const response = await axios.post("/api/add-todo", {
@@ -123,7 +120,6 @@ export default defineComponent({
       }
     },
 
-    // Update an existing todo
     async updateTodo() {
       try {
         await axios.post("/api/update-todo", this.newTodo);
@@ -136,22 +132,19 @@ export default defineComponent({
       }
     },
 
-    // Delete a todo
     async deleteTodo(id: number) {
       try {
         await axios.post("/api/delete-todo", { id });
-        this.results = this.results.filter((todo) => todo.id !== id); // Remove from results
+        this.results = this.results.filter((todo) => todo.id !== id);
       } catch (error) {
         console.error("Failed to delete todo:", error);
       }
     },
 
-    // Populate form for editing a todo
     editTodo(todo: Todo) {
-      this.newTodo = { ...todo }; // Populate form fields with the selected todo
+      this.newTodo = { ...todo }; 
     },
 
-    // Reset form
     resetForm() {
       this.newTodo = {
         id: -1,
